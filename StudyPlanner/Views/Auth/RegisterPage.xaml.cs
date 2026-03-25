@@ -6,4 +6,14 @@ public partial class RegisterPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private async void OnBackToLoginTapped(object sender, EventArgs e)
+    {
+        await DisplayAlert("back", "back tapped (placeholder)", "OK");
+    }
+
+    private async void OnRegisterClicked(object sender, EventArgs e)
+    {
+        await DisplayAlert("register", "register tapped (placeholder)", "OK");
+    }
 }
