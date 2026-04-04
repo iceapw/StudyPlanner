@@ -1,10 +1,10 @@
-﻿namespace StudyPlanner
+﻿namespace StudyPlanner;
+
+public partial class AppShell : Shell
 {
-	public partial class AppShell : Shell
+	public AppShell()
 	{
-		public AppShell()
-		{
-			InitializeComponent();
-		}
+		InitializeComponent();
+		Routing.RegisterRoute("CourseDetailPage", typeof(Views.Courses.CourseDetailPage));
 	}
 }

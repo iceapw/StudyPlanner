@@ -20,7 +20,7 @@ namespace StudyPlanner.Models
         public string grading_type { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
-        public object due_at { get; set; }
+        public DateTime? due_at { get; set; }
         public object final_grader_id { get; set; }
         public int grader_count { get; set; }
         public bool graders_anonymous_to_graders { get; set; }

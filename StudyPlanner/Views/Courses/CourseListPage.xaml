@@ -1,12 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StudyPlanner.ViewModels"
              x:Class="StudyPlanner.Views.Courses.CourseListPage"
-             Title="CourseListPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Course Pages"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Name="CourseListPageRoot"
+             Title="My Courses">
+
+	<ContentPage.BindingContext>
+		<viewmodels:CourseListViewModel />
+	</ContentPage.BindingContext>
+
+	<Grid RowDefinitions="*,60">
+
+		<ScrollView Grid.Row="0">
+			<VerticalStackLayout Padding="20" Spacing="12">
+
+				<Label Text="My Courses" FontSize="24" FontAttributes="Bold" />
+
+				<CollectionView ItemsSource="{Binding Courses}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Frame CornerRadius="12" Padding="15" Margin="0,0,0,8"
+                                   HasShadow="True" BorderColor="Transparent"
+                                   BackgroundColor="{Binding ColorHex}">
+								<Frame.GestureRecognizers>
+									<TapGestureRecognizer
+                                        Command="{Binding BindingContext.CourseTappedCommand, Source={x:Reference CourseListPageRoot}}"
+                                        CommandParameter="{Binding .}" />
+								</Frame.GestureRecognizers>
+								<VerticalStackLayout Spacing="4">
+									<Label Text="{Binding CourseCode}" FontAttributes="Bold"
+                                           FontSize="16" TextColor="White" />
+									<Label Text="{Binding Title}" FontSize="13" TextColor="White" />
+								</VerticalStackLayout>
+							</Frame>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+
+			</VerticalStackLayout>
+		</ScrollView>
+
+
+		<Grid Grid.Row="1" ColumnDefinitions="*,*,*" BackgroundColor="White" HeightRequest="60">
+			<Grid.Shadow>
+				<Shadow Brush="Black" Offset="0,-2" Radius="4" Opacity="0.1"/>
+			</Grid.Shadow>
+
+			<VerticalStackLayout Grid.Column="0" HorizontalOptions="Center"
+                         VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnHomeTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="home.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Home" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Grid.Column="1" HorizontalOptions="Center"
+                         VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnCoursesTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="book.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Courses" FontSize="11" HorizontalOptions="Center" TextColor="#4F46E5"/>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Grid.Column="2" HorizontalOptions="Center"
+                         VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnTasksTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="tasks.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Tasks" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
+			</VerticalStackLayout>
+
+		</Grid>
+	</Grid>
 </ContentPage>

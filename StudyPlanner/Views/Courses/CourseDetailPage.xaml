@@ -2,11 +2,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StudyPlanner.Views.Courses.CourseDetailPage"
-             Title="CourseDetailPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Shell.NavBarIsVisible="True"
+             Title="{Binding CourseCode}">
+
+	<Shell.BackButtonBehavior>
+		<BackButtonBehavior Command="{Binding BackCommand}" />
+	</Shell.BackButtonBehavior>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20" Spacing="12">
+
+			<Label Text="{Binding Title}" FontSize="22" FontAttributes="Bold" />
+			<Label Text="Assignments" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0" />
+
+			<CollectionView ItemsSource="{Binding Tasks}">
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Frame CornerRadius="10" Padding="15" Margin="0,0,0,10"
+                               HasShadow="True" BorderColor="#E5E7EB">
+
+							<Frame.Triggers>
+								<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Overdue">
+									<Setter Property="BackgroundColor" Value="#EF4444" />
+									<Setter Property="BorderColor" Value="Transparent" />
+								</DataTrigger>
+							</Frame.Triggers>
+
+							<VerticalStackLayout Spacing="4">
+								<Label Text="{Binding Title}" FontAttributes="Bold" FontSize="15" />
+								<Label Text="{Binding DueDate, StringFormat='Due: {0:MMM dd, yyyy}'}"
+                                       FontSize="12" TextColor="#6B7280" />
+								<Label Text="{Binding Status}" FontSize="12" TextColor="#6B7280" />
+							</VerticalStackLayout>
+
+						</Frame>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+
+		</VerticalStackLayout>
+	</ScrollView>
 </ContentPage>

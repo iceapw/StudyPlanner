@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StudyPlanner.ViewModels"
+             x:Class="StudyPlanner.Views.Tasks.TasksPage"
+             x:Name="TasksPageRoot">
+
+	<ContentPage.BindingContext>
+		<viewmodels:TasksViewModel />
+	</ContentPage.BindingContext>
+
+	<Grid RowDefinitions="*,60">
+
+		<ScrollView Grid.Row="0">
+			<VerticalStackLayout Padding="20" Spacing="16">
+
+				<Label Text="My Tasks" FontSize="24" FontAttributes="Bold" />
+
+				<Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+					<Frame Grid.Column="0" Padding="8,6" CornerRadius="20" BorderColor="Transparent"
+                           BackgroundColor="{Binding InProgressSelected, Converter={StaticResource BoolToColorConverter}}">
+						<Frame.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="InProgress"/>
+						</Frame.GestureRecognizers>
+						<Label Text="In Progress" FontSize="12" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{Binding InProgressSelected, Converter={StaticResource BoolToTextColorConverter}}"/>
+					</Frame>
+
+					<Frame Grid.Column="1" Padding="8,6" CornerRadius="20" BorderColor="Transparent"
+                           BackgroundColor="{Binding OverdueSelected, Converter={StaticResource BoolToColorConverter}}">
+						<Frame.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="Overdue"/>
+						</Frame.GestureRecognizers>
+						<Label Text="Overdue" FontSize="12" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{Binding OverdueSelected, Converter={StaticResource BoolToTextColorConverter}}"/>
+					</Frame>
+
+					<Frame Grid.Column="2" Padding="8,6" CornerRadius="20" BorderColor="Transparent"
+                           BackgroundColor="{Binding CompletedSelected, Converter={StaticResource BoolToColorConverter}}">
+						<Frame.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="Completed"/>
+						</Frame.GestureRecognizers>
+						<Label Text="Completed" FontSize="12" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{Binding CompletedSelected, Converter={StaticResource BoolToTextColorConverter}}"/>
+					</Frame>
+				</Grid>
+
+				<CollectionView ItemsSource="{Binding FilteredTasks}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Frame CornerRadius="10" Padding="15" Margin="0,0,0,10"
+                                   HasShadow="True" BorderColor="#E5E7EB">
+
+								<Frame.Triggers>
+									<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Overdue">
+										<Setter Property="BackgroundColor" Value="#EF4444" />
+										<Setter Property="BorderColor" Value="Transparent" />
+									</DataTrigger>
+									<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Completed">
+										<Setter Property="BackgroundColor" Value="#F0FDF4" />
+									</DataTrigger>
+								</Frame.Triggers>
+
+								<Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+									<VerticalStackLayout Grid.Column="0" Spacing="3">
+										<Label Text="{Binding Title}" FontAttributes="Bold" FontSize="15"/>
+										<Label Text="{Binding CourseCode}" FontSize="12" TextColor="#6B7280"/>
+										<Label Text="{Binding DueDate, StringFormat='Due: {0:MMM dd, yyyy}'}"
+                                               FontSize="12" TextColor="#6B7280"/>
+									</VerticalStackLayout>
+
+
+									<Frame Grid.Column="1" Padding="8,4" CornerRadius="12"
+                                           BorderColor="Transparent" VerticalOptions="Center">
+										<Frame.Triggers>
+											<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="In Progress">
+												<Setter Property="BackgroundColor" Value="#DBEAFE"/>
+											</DataTrigger>
+											<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Overdue">
+												<Setter Property="BackgroundColor" Value="#FEE2E2"/>
+											</DataTrigger>
+											<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Completed">
+												<Setter Property="BackgroundColor" Value="#D1FAE5"/>
+											</DataTrigger>
+										</Frame.Triggers>
+										<Label Text="{Binding Status}" FontSize="11" FontAttributes="Bold">
+											<Label.Triggers>
+												<DataTrigger TargetType="Label" Binding="{Binding Status}" Value="In Progress">
+													<Setter Property="TextColor" Value="#1D4ED8"/>
+												</DataTrigger>
+												<DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Overdue">
+													<Setter Property="TextColor" Value="#B91C1C"/>
+												</DataTrigger>
+												<DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Completed">
+													<Setter Property="TextColor" Value="#065F46"/>
+												</DataTrigger>
+											</Label.Triggers>
+										</Label>
+									</Frame>
+								</Grid>
+							</Frame>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+
+			</VerticalStackLayout>
+		</ScrollView>
+
+		<Grid Grid.Row="1" ColumnDefinitions="*,*,*" BackgroundColor="White" HeightRequest="60">
+			<Grid.Shadow>
+				<Shadow Brush="Black" Offset="0,-2" Radius="4" Opacity="0.1"/>
+			</Grid.Shadow>
+
+			<VerticalStackLayout Grid.Column="0" HorizontalOptions="Center"
+                                 VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnHomeTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="home.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Home" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Grid.Column="1" HorizontalOptions="Center"
+                                 VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnCoursesTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="book.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Courses" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Grid.Column="2" HorizontalOptions="Center"
+                                 VerticalOptions="Center" Spacing="2">
+				<VerticalStackLayout.GestureRecognizers>
+					<TapGestureRecognizer Tapped="OnTasksTapped"/>
+				</VerticalStackLayout.GestureRecognizers>
+				<Image Source="tasks.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
+				<Label Text="Tasks" FontSize="11" HorizontalOptions="Center" TextColor="#4F46E5"/>
+			</VerticalStackLayout>
+
+		</Grid>
+	</Grid>
+</ContentPage>
