@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:StudyPlanner"
     xmlns:dashboard="clr-namespace:StudyPlanner.Views.Dashboard"
     xmlns:courses="clr-namespace:StudyPlanner.Views.Courses"
-    xmlns:profile="clr-namespace:StudyPlanner.Views.Profile"
     Title="StudyPlanner"
     Shell.NavBarIsVisible="False">
 
@@ -22,12 +21,6 @@
 			<ShellContent
                 ContentTemplate="{DataTemplate courses:CourseListPage}"
                 Route="CoursesPage" />
-		</Tab>
-
-		<Tab Title="Profile" Icon="profile.png">
-			<ShellContent
-                ContentTemplate="{DataTemplate profile:ProfilePage}"
-                Route="ProfilePage" />
 		</Tab>
 
 	</TabBar>
