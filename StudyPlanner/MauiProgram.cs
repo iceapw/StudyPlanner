@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using StudyPlanner.Data;
 
 namespace StudyPlanner
 {
@@ -15,9 +16,7 @@ namespace StudyPlanner
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				});
 
-#if DEBUG
-			builder.Logging.AddDebug();
-#endif
+			builder.Services.AddSingleton<APIKeyDatabase>();
 
 			return builder.Build();
 		}
