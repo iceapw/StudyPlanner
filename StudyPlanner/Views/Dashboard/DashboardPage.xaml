@@ -70,40 +70,5 @@
 
 			</VerticalStackLayout>
 		</ScrollView>
-
-
-		<Grid Grid.Row="1" ColumnDefinitions="*,*,*" BackgroundColor="White" HeightRequest="60">
-			<Grid.Shadow>
-				<Shadow Brush="Black" Offset="0,-2" Radius="4" Opacity="0.1"/>
-			</Grid.Shadow>
-
-			<VerticalStackLayout Grid.Column="0" HorizontalOptions="Center"
-                         VerticalOptions="Center" Spacing="2">
-				<VerticalStackLayout.GestureRecognizers>
-					<TapGestureRecognizer Tapped="OnHomeTapped"/>
-				</VerticalStackLayout.GestureRecognizers>
-				<Image Source="home.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
-				<Label Text="Home" FontSize="11" HorizontalOptions="Center" TextColor="#4F46E5"/>
-			</VerticalStackLayout>
-
-			<VerticalStackLayout Grid.Column="1" HorizontalOptions="Center"
-                         VerticalOptions="Center" Spacing="2">
-				<VerticalStackLayout.GestureRecognizers>
-					<TapGestureRecognizer Tapped="OnCoursesTapped"/>
-				</VerticalStackLayout.GestureRecognizers>
-				<Image Source="book.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
-				<Label Text="Courses" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
-			</VerticalStackLayout>
-
-			<VerticalStackLayout Grid.Column="2" HorizontalOptions="Center"
-                         VerticalOptions="Center" Spacing="2">
-				<VerticalStackLayout.GestureRecognizers>
-					<TapGestureRecognizer Tapped="OnTasksTapped"/>
-				</VerticalStackLayout.GestureRecognizers>
-				<Image Source="tasks.png" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center"/>
-				<Label Text="Tasks" FontSize="11" HorizontalOptions="Center" TextColor="#6B7280"/>
-			</VerticalStackLayout>
-
-		</Grid>
 	</Grid>
 </ContentPage>
