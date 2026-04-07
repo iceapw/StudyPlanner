@@ -7,7 +7,7 @@ namespace StudyPlanner.Services;
 
 public class DatabaseService
 {
-    private const string DBName = "StudyPlanner_db3.db3";
+    private const string DBName = "StudyPlanner_db.db3";
 
     private readonly SQLiteAsyncConnection _connection;
 
