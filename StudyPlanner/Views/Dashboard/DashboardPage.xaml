@@ -1,128 +1,74 @@
-<ContentPage
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="clr-namespace:StudyPlanner.ViewModels"
-    x:Class="StudyPlanner.Views.Dashboard.DashboardPage"
-    x:Name="DashboardPageRoot">
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StudyPlanner.ViewModels"
+             x:Class="StudyPlanner.Views.Dashboard.DashboardPage"
+             x:Name="DashboardPageRoot">
 	<ContentPage.BindingContext>
 		<viewmodels:DashboardViewModel />
 	</ContentPage.BindingContext>
 
-	<ScrollView>
-		<VerticalStackLayout Padding="20" Spacing="20">
+	<Grid RowDefinitions="*,60">
 
-			<Label 
-                Text="Smart Study Planner"
-                FontSize="24"
-                FontAttributes="Bold" />
+		<ScrollView Grid.Row="0">
+			<VerticalStackLayout Padding="20" Spacing="20">
 
-			<Label Text="My Courses" FontAttributes="Bold" FontSize="16"/>
+				<Label Text="Smart Study Planner" FontSize="24" FontAttributes="Bold" />
+				<Label Text="My Courses" FontAttributes="Bold" FontSize="16"/>
 
-			<CollectionView ItemsSource="{Binding Courses}">
-				<CollectionView.ItemsLayout>
-					<GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="5" VerticalItemSpacing="5" />
-				</CollectionView.ItemsLayout>
-
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<Frame 
-                            CornerRadius="12"
-                            Padding="15"
-                            HasShadow="True"
-                            BorderColor="Transparent"
-                            BackgroundColor="{Binding ColorHex}">
-
-							<VerticalStackLayout Spacing="5">
-								<Label 
-                                    Text="{Binding CourseCode}"
-                                    FontAttributes="Bold"
-                                    FontSize="16"
-                                    TextColor="White"/>
-
-								<Label 
-                                    Text="{Binding Title}"
-                                    FontSize="13"
-                                    TextColor="White"/>
-							</VerticalStackLayout>
-
-						</Frame>
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
-
-			<Label Text="Upcoming Tasks" FontAttributes="Bold" FontSize="16" Margin="0,10,0,0"/>
-
-			<CollectionView ItemsSource="{Binding Tasks}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-
-						<Frame x:Name="TaskFrame" CornerRadius="10" Padding="15" Margin="0,0,0,12" HasShadow="True" BorderColor="#E5E7EB">
-
-							<Frame.Triggers>
-								<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Overdue">
-									<Setter Property="BackgroundColor" Value="#EF4444" />
-									<Setter Property="BorderColor" Value="Transparent" />
-								</DataTrigger>
-							</Frame.Triggers>
-
-							<Frame.GestureRecognizers>
-								<TapGestureRecognizer 
-                                    Command="{Binding BindingContext.TaskTappedCommand, Source={x:Reference DashboardPageRoot}}" 
-                                    CommandParameter="{Binding .}" />
-							</Frame.GestureRecognizers>
-
-							<Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
-
-								<VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
-
-									<Label x:Name="TitleLabel" Text="{Binding Title}" FontAttributes="Bold" FontSize="16">
-										<Label.Triggers>
-											<DataTrigger TargetType="Label" Binding="{Binding Status, Source={x:Reference TaskFrame}}" Value="Overdue">
-												<Setter Property="TextColor" Value="White" />
-											</DataTrigger>
-										</Label.Triggers>
-									</Label>
-
-									<Label x:Name="CourseLabel" Text="{Binding CourseCode}" FontSize="12" TextColor="#6B7280">
-										<Label.Triggers>
-											<DataTrigger TargetType="Label" Binding="{Binding Status, Source={x:Reference TaskFrame}}" Value="Overdue">
-												<Setter Property="TextColor" Value="White" />
-											</DataTrigger>
-										</Label.Triggers>
-									</Label>
-
-									<Label x:Name="DateLabel" Text="{Binding DueDate, StringFormat='{0:MMM dd}'}" FontSize="12" TextColor="#6B7280">
-										<Label.Triggers>
-											<DataTrigger TargetType="Label" Binding="{Binding Status, Source={x:Reference TaskFrame}}" Value="Overdue">
-												<Setter Property="TextColor" Value="White" />
-											</DataTrigger>
-										</Label.Triggers>
-									</Label>
+				<CollectionView ItemsSource="{Binding Courses}">
+					<CollectionView.ItemsLayout>
+						<GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="5" VerticalItemSpacing="5" />
+					</CollectionView.ItemsLayout>
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Frame CornerRadius="12" Padding="15" HasShadow="True"
+                                   BorderColor="Transparent" BackgroundColor="{Binding ColorHex}">
+								<Frame.GestureRecognizers>
+									<TapGestureRecognizer
+                                        Command="{Binding BindingContext.CourseTappedCommand, Source={x:Reference DashboardPageRoot}}"
+                                        CommandParameter="{Binding .}" />
+								</Frame.GestureRecognizers>
+								<VerticalStackLayout Spacing="5">
+									<Label Text="{Binding CourseCode}" FontAttributes="Bold" FontSize="16" TextColor="White"/>
+									<Label Text="{Binding Title}" FontSize="13" TextColor="White"/>
 								</VerticalStackLayout>
+							</Frame>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
 
-								<Button 
-                                    Grid.Column="1"
-                                    Text="✓"
-                                    FontSize="15"
-                                    FontAttributes="Bold"
-                                    BackgroundColor="#10B981"
-                                    TextColor="White"
-                                    CornerRadius="100"
-                                    HeightRequest="10"
-                                    WidthRequest="10"
-                                    Padding="0"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Command="{Binding BindingContext.MarkTaskDoneCommand, Source={x:Reference DashboardPageRoot}}"
-                                    CommandParameter="{Binding .}" />
+				<Label Text="Upcoming Tasks" FontAttributes="Bold" FontSize="16" Margin="0,10,0,0"/>
 
-							</Grid>
-						</Frame>
+				<CollectionView ItemsSource="{Binding Tasks}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Frame x:Name="TaskFrame" CornerRadius="10" Padding="15" Margin="0,0,0,12" HasShadow="True" BorderColor="#E5E7EB">
+								<Frame.Triggers>
+									<DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="Overdue">
+										<Setter Property="BackgroundColor" Value="#EF4444" />
+										<Setter Property="BorderColor" Value="Transparent" />
+									</DataTrigger>
+								</Frame.Triggers>
+								<Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
+									<VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+										<Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16"/>
+										<Label Text="{Binding CourseCode}" FontSize="12" TextColor="#6B7280"/>
+										<Label Text="{Binding DueDate, StringFormat='{0:MMM dd}'}" FontSize="12" TextColor="#6B7280"/>
+									</VerticalStackLayout>
+									<Button Grid.Column="1" Text="✓" FontSize="15" FontAttributes="Bold"
+                                            BackgroundColor="#10B981" TextColor="White" CornerRadius="100"
+                                            HeightRequest="10" WidthRequest="10" Padding="0"
+                                            VerticalOptions="Center" HorizontalOptions="End"
+                                            Command="{Binding BindingContext.MarkTaskDoneCommand, Source={x:Reference DashboardPageRoot}}"
+                                            CommandParameter="{Binding .}" />
+								</Grid>
+							</Frame>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
 
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
-
-		</VerticalStackLayout>
-	</ScrollView>
+			</VerticalStackLayout>
+		</ScrollView>
+	</Grid>
 </ContentPage>

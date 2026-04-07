@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StudyPlanner.ViewModels"
              x:Class="StudyPlanner.Views.Courses.CourseListPage"
-             Title="CourseListPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Course Pages"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Name="CourseListPageRoot"
+             Title="My Courses">
+
+	<ContentPage.BindingContext>
+		<viewmodels:CourseListViewModel />
+	</ContentPage.BindingContext>
+
+	<Grid RowDefinitions="*,60">
+
+		<ScrollView Grid.Row="0">
+			<VerticalStackLayout Padding="20" Spacing="12">
+
+
+				<CollectionView ItemsSource="{Binding Courses}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Frame CornerRadius="12" Padding="15" Margin="0,0,0,8"
+                                   HasShadow="True" BorderColor="Transparent"
+                                   BackgroundColor="{Binding ColorHex}">
+								<Frame.GestureRecognizers>
+									<TapGestureRecognizer
+                                        Command="{Binding BindingContext.CourseTappedCommand, Source={x:Reference CourseListPageRoot}}"
+                                        CommandParameter="{Binding .}" />
+								</Frame.GestureRecognizers>
+								<VerticalStackLayout Spacing="4">
+									<Label Text="{Binding CourseCode}" FontAttributes="Bold"
+                                           FontSize="16" TextColor="White" />
+									<Label Text="{Binding Title}" FontSize="13" TextColor="White" />
+								</VerticalStackLayout>
+							</Frame>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+
+			</VerticalStackLayout>
+		</ScrollView>
+	</Grid>
 </ContentPage>

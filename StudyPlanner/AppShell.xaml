@@ -3,33 +3,27 @@
     x:Class="StudyPlanner.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:StudyPlanner"
     xmlns:dashboard="clr-namespace:StudyPlanner.Views.Dashboard"
     xmlns:courses="clr-namespace:StudyPlanner.Views.Courses"
-    xmlns:profile="clr-namespace:StudyPlanner.Views.Profile"
-    Title="StudyPlanner"
-    Shell.NavBarIsVisible="False">
+    xmlns:tasks="clr-namespace:StudyPlanner.Views.Tasks"
+    Title="StudyPlanner">
 
-	<TabBar>
-
-		<Tab Title="Home" Icon="home.png">
+	<TabBar x:Name="MainTabBar">
+		<Tab Title="Home" Icon="home.png" Route="HomeTab">
 			<ShellContent
                 ContentTemplate="{DataTemplate dashboard:DashboardPage}"
                 Route="DashboardPage" />
 		</Tab>
-
-		<Tab Title="Courses" Icon="book.png">
+		<Tab Title="Courses" Icon="book.png" Route="CoursesTab">
 			<ShellContent
                 ContentTemplate="{DataTemplate courses:CourseListPage}"
                 Route="CoursesPage" />
 		</Tab>
-
-		<Tab Title="Profile" Icon="profile.png">
+		<Tab Title="Tasks" Icon="tasks.png" Route="TasksTab">
 			<ShellContent
-                ContentTemplate="{DataTemplate profile:ProfilePage}"
-                Route="ProfilePage" />
+                ContentTemplate="{DataTemplate tasks:TasksPage}"
+                Route="TasksPage" />
 		</Tab>
-
 	</TabBar>
 
 </Shell>

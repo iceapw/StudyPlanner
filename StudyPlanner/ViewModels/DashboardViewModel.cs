@@ -1,36 +1,80 @@
-﻿using System.Collections.ObjectModel;
-using StudyPlanner.Models;
-using System.Linq;
+﻿using StudyPlanner.Models;
+using StudyPlanner.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace StudyPlanner.ViewModels
 {
-	public class DashboardViewModel
+	public class DashboardViewModel : INotifyPropertyChanged
 	{
-		public ObservableCollection<Course> Courses { get; set; }
-		public ObservableCollection<TaskItem> Tasks { get; set; }
+		private readonly ApiService _apiService;
+
+		public ObservableCollection<Course> Courses { get; set; } = new();
+		public ObservableCollection<TaskItem> Tasks { get; set; } = new();
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public ICommand CourseTappedCommand { get; }
 
 		public DashboardViewModel()
 		{
-			Courses = new ObservableCollection<Course>
+			_apiService = new ApiService();
+
+			CourseTappedCommand = new Command<Course>(async (course) =>
 			{
-				new Course { CourseCode = "CS 201", Title = "Computer Science" },
-				new Course { CourseCode = "MATH 201", Title = "Math" },
-				new Course { CourseCode = "ENG 101", Title = "English" },
-				new Course { CourseCode = "PHYS 150", Title = "Physics" }
-			};
+				var navigationParams = new Dictionary<string, object>
+	{
+		{ "Course", course }
+	};
+				await Shell.Current.GoToAsync("//HomeTab/DashboardPage/CourseDetailPage", navigationParams);
+			});
 
-			var allTasks = new List<TaskItem>
+			LoadDataAsync();
+		}
+
+		private async void LoadDataAsync()
+		{
+			try
 			{
-				new TaskItem { Title = "Task1", CourseCode = "PHYS 150", DueDate = DateTime.Now.AddDays(1), Status = "In Progress" },
-				new TaskItem { Title = "Task2", CourseCode = "ENG 101", DueDate = DateTime.Now.AddDays(2), Status = "Done" },
-				new TaskItem { Title = "Task3", CourseCode = "CS 201", DueDate = DateTime.Now.AddDays(-1), Status = "Overdue" },
-				new TaskItem { Title = "Task4", CourseCode = "MATH 201", DueDate = DateTime.Now.AddDays(3), Status = "In Progress" }
-			};
+				var apiCourses = await _apiService.GetCourses();
 
+				Courses.Clear();
+				foreach (var c in apiCourses)
+				{
+					Courses.Add(new Course
+					{
+						Id = c.id,
+						CourseCode = c.course_code,
+						Title = c.name,
+						ColorHex = "#4F46E5"
+					});
+				}
 
-			var activeTasks = allTasks.Where(task => task.Status != "Done");
+				Tasks.Clear();
+				foreach (var c in apiCourses)
+				{
+					var assignments = await _apiService.GetHomework(c.id);
 
-			Tasks = new ObservableCollection<TaskItem>(activeTasks);
+					foreach (var a in assignments)
+					{
+						var due = a.due_at ?? DateTime.MaxValue;
+						string status = due < DateTime.Now ? "Overdue" : "In Progress";
+
+						Tasks.Add(new TaskItem
+						{
+							Title = a.name,
+							CourseCode = c.course_code,
+							DueDate = due,
+							Status = status
+						});
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error loading data: {ex.Message}");
+			}
 		}
 	}
 }

@@ -1,8 +1,8 @@
-namespace StudyPlanner.Views.Courses;
+namespace StudyPlanner.Views.Tasks;
 
-public partial class CourseListPage : ContentPage
+public partial class TasksPage : ContentPage
 {
-	public CourseListPage()
+	public TasksPage()
 	{
 		InitializeComponent();
 	}
@@ -14,11 +14,11 @@ public partial class CourseListPage : ContentPage
 
 	private async void OnCoursesTapped(object sender, EventArgs e)
 	{
-		await Navigation.PopToRootAsync(false);
+		await Shell.Current.GoToAsync("//CoursesTab/CoursesPage");
 	}
 
 	private async void OnTasksTapped(object sender, EventArgs e)
 	{
-		await Shell.Current.GoToAsync("//TasksTab/TasksPage");
+		await Navigation.PopToRootAsync(false);
 	}
 }
