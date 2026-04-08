@@ -40,6 +40,7 @@ public partial class DashboardPage : ContentPage
 		if (resultOfGetKey.Count == 0)
 		{
 			var popup = new APIPopup(_dbService, new Entry());
+			
 
 			var result = await this.ShowPopupAsync(popup);
 			

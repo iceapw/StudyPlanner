@@ -17,8 +17,10 @@ public class APIPopup : Popup
         var confirmButton = new Button { Text = "Confirm" };
         confirmButton.Clicked += ConfirmClicked;
 
+        
         Content = new VerticalStackLayout
         {
+            Padding = new Thickness(20),
             Children = 
             {
                 new Label { Text = "Please enter your API Registration Key" },
