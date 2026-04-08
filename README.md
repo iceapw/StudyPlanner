@@ -21,11 +21,8 @@ Before you run this application, you must grab an associated API key from an acc
 ![Access Token Generation Screen](StudyPlanner/Resources/Images/access_token_generation.png)
 
 3. Once you hit "Generate Token" make sure to copy down the token that is generated as you will not be able to copy it later!
-<br>
 4. Next make sure your .NET MAUI environment is set up according to the initial class instructions.
-<br>
 5. Next make sure to view the video down below for initial set up and follow up instructions when running the application.
-<br>
 TODO: Video presentation linked below.
 
 
