@@ -3,9 +3,9 @@
 This is a Application that allows for integration with the Canvas Instructure solution. 
 
 # Main Goals
-1. Create a robust App that allows for seamless integration into the Canvas solution.
-2. Make a cross-platform app the provides accessible studying capabilities
-3. ???
+1. Create an interface to display courses, assignments, and corresponding due dates.  
+2. Fetch courses and details from canvas using their API. 
+3. Navigate between a main dashboard listing all courses and a page for each course with more details 
 
 
 # Instructions for running Application
