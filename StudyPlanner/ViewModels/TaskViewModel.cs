@@ -24,7 +24,7 @@ namespace StudyPlanner.ViewModels
 
 		public TasksViewModel()
 		{
-			_apiService = new ApiService();
+			_apiService = new ApiService(new DatabaseService());
 
 			SelectCategoryCommand = new Command<string>((category) =>
 			{

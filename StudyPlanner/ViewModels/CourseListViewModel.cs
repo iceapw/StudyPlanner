@@ -18,7 +18,7 @@ namespace StudyPlanner.ViewModels
 
 		public CourseListViewModel()
 		{
-			_apiService = new ApiService();
+			_apiService = new ApiService(new DatabaseService());
 
 			CourseTappedCommand = new Command<Course>(async (course) =>
 			{

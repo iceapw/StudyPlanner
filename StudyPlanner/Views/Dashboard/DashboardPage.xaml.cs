@@ -1,9 +1,19 @@
+
+using CommunityToolkit.Maui.Views;
+using StudyPlanner.Services;
+using StudyPlanner.Views.Popups;
+using StudyPlanner.Models;
+using Xamarin.Google.ErrorProne.Annotations;
+
 namespace StudyPlanner.Views.Dashboard;
 
 public partial class DashboardPage : ContentPage
 {
-	public DashboardPage()
+	private readonly DatabaseService _dbService;
+
+	public DashboardPage(DatabaseService dbService)
 	{
+		_dbService = dbService;
 		InitializeComponent();
 	}
 
@@ -20,5 +30,20 @@ public partial class DashboardPage : ContentPage
 	private async void OnTasksTapped(object sender, EventArgs e)
 	{
 		await Shell.Current.GoToAsync("//TasksTab/TasksPage");
+	}
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+
+		List<Key> resultOfGetKey = await _dbService.GetKey();
+
+		if (resultOfGetKey.Count == 0)
+		{
+			var popup = new APIPopup(_dbService, new Entry());
+			
+
+			var result = await this.ShowPopupAsync(popup);
+			
+		}
 	}
 }

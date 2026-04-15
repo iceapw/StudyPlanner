@@ -10,6 +10,7 @@ namespace StudyPlanner.ViewModels
 	public class CourseDetailViewModel : INotifyPropertyChanged
 	{
 		private readonly ApiService _apiService;
+
 		private Course _course;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -36,7 +37,7 @@ namespace StudyPlanner.ViewModels
 
 		public CourseDetailViewModel()
 		{
-			_apiService = new ApiService();
+			_apiService = new ApiService(new DatabaseService());
 
 			BackCommand = new Command(async () =>
 			{
